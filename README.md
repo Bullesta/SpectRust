@@ -21,12 +21,16 @@ All of these requires (except img) are optional and require either a **Some()** 
 
 Examples:
 ```rust
-fn main() {
-    let img = image::open("images.png").expect("Unable to locate file.");    
-    match locate_img_center(&img, None, Some(0.9), Some(10)) {
+use spectrust::*;
+fn main () {
+    let img = image::open("images.png").expect("Unable to locate file.");
+    let region = None;
+    let min_confidence = Some(0.8);
+    let tolerance = Some(5);
+
+    match locate_center_of_image(&img, region, min_confidence, tolerance) {
         Some((x, y, confidence)) => {
             println!("Image center found at {}, {} with confidence {}", x, y, confidence);
-            move_to(x.try_into().unwrap(), y.try_into().unwrap())
         },
         None => println!("Image not found"),
     }
@@ -35,6 +39,7 @@ fn main() {
 ```rust
 fn main() {
     let img = image::open("images.png").expect("Unable to locate file.");
+
     match locate_image(&img, None, None, None) {
         Some((x, y, img_width, img_height, _confidence)) => {
             println!("x: {}, y: {}, width: {}, height: {}",x, y, img_width, img_height)
@@ -51,3 +56,6 @@ Benchmark
 **Rust**: 53ms
 (Both finding the Rust icon with a size of 225x225px on a 1920x1080 screen)
 
+**Useful for Bot Creating**
+https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png
+Running for 20 minutes on an online autoclicker
