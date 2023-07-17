@@ -60,4 +60,7 @@ Benchmark
 <a href="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png">
   <img src="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png" width="275px">
 </a>
+<a href="https://im.ezgif.com/tmp/ezgif-1-a8609637bb.gif">
+    <img src="https://im.ezgif.com/tmp/ezgif-1-a8609637bb.gif">
+</a>
 Running for 20 minutes on an online autoclicker
