@@ -57,6 +57,7 @@ Benchmark
 (Both finding the Rust icon with a size of 225x225px on a 1920x1080 screen)
 
 **Useful for Bot Creating**
+<div align="center">
 <a href="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png">
   <img src="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png" width="275px">
 </a>
@@ -64,3 +65,4 @@ Benchmark
     <img src="https://im.ezgif.com/tmp/ezgif-1-a8609637bb.gif">
 </a>
 Running for 20 minutes on an online autoclicker
+</div>
