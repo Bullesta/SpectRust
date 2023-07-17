@@ -1,0 +1,17 @@
+[package]
+name = "spectrust"
+description = "A fast, Rust-based computer vision library for locating images on the screen."
+license = "MIT OR Apache-2.0"
+authors = ["Bullesta"]
+repository = "https://github.com/Bullesta/SpectRust"
+keywords = ["computer-vision", "image-processing", "screenshot", "image-recognition", "pattern-matching", "rust"]
+categories = ["computer-vision", "multimedia", "image-processing", "science::scientific-visualization"]
+readme = "README.md"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+image = "0.24.6"
+screenshots = "0.5.4"
