@@ -48,7 +48,7 @@ fn main() {
     }
 }
 ```
-Early version of this had incredible speed during development.  But as new features were added and simplicity introduced, started to slow down itself.
+Early version of this had incredible speed during development.  But as new features were added and simplicity introduced, started to slow down itself. Will release a branch of the original soon.
 
 Benchmark
 --------
@@ -68,6 +68,6 @@ Benchmark
     </a>
     </div>
     <div>
-        Running for 20 minutes on an online autoclicker
+        *Running for 20 minutes on an online aim trainer
     </div>
 </div>
