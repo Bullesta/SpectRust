@@ -63,6 +63,9 @@ Benchmark
         <img src="https://s11.gifyu.com/images/SWCfO.gif">
     </a>
     <div>
+        *Reaction Test (actual time is about 12ms)
+    </div>
+    <div>
     <a href="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png">
       <img src="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png">
     </a>
