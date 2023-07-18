@@ -59,8 +59,8 @@ Benchmark
 **Useful for Bot Creating**
 <div align="center">
     <div>
-    <a href="https://im.ezgif.com/tmp/ezgif-1-a8609637bb.gif">
-        <img src="https://im.ezgif.com/tmp/ezgif-1-a8609637bb.gif">
+    <a href="https://s11.gifyu.com/images/SWCfO.gif">
+        <img src="https://s11.gifyu.com/images/SWCfO.gif">
     </a>
     <div>
     <a href="https://i.ibb.co/5hndWVg/Clicker-Game-REsults.png">
