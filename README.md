@@ -1,6 +1,9 @@
 # SpectRust
-!!! I am aware of the transparent png's not working correctly. I am fixing this soon !!!
-
+<div align="center">
+    <a href="https://i.ibb.co/FKvjWRF/spectrust-logo.png">
+        <img src="https://i.ibb.co/FKvjWRF/spectrust-logo.png">
+    </a>
+</div>
 A Rust-based Computer visioner for locating images on screen
 
 It can search the entire screen a over 3x faster than pyautogui and does not require OpenCV for options like Confidence. I've also added an option called Tolerance that allows for leniency with pixel colors that are close to the original image's. Written in pure Rust.
@@ -50,7 +53,7 @@ fn main() {
     }
 }
 ```
-Early version of this had incredible speed during development.  But as new features were added and simplicity introduced, started to slow down itself. Will release a branch of the original soon.
+If you are having trouble with finding an image. Try lowering the confidence or increasing the tolerance. 
 
 Benchmark
 --------
