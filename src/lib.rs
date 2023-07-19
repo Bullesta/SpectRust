@@ -1,5 +1,5 @@
 // Importing necessary image processing and screenshot capturing modules.
-use image::{DynamicImage, GenericImageView ,Rgb, Pixel};
+use image::{DynamicImage, GenericImageView, Pixel, Rgba};
 use screenshots::{DisplayInfo, Screen};
 
 // Function that takes a screenshot of a specified area.
@@ -44,15 +44,15 @@ fn size() -> (u16, u16) {
     return (primary.width as u16, primary.height as u16);
 }
 
-// Function to locate an image within the screen with given parameters and tolerance.
+// Function to locate an image on the screen with optional region, minimum confidence, and tolerance.
 // Returns coordinates, width, height and confidence if image is found, otherwise None.
-fn locate_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u32, screen_height: u32, img_width: u32, img_height: u32, min_confidence: f32, tolerance: u8) -> Option<(u32, u32, u32, u32, f32)> {
-    // Changing step_size will drastically increase scan speed, but at the cost of lowering accuracy.
+fn locate_on_screen(screen: &[Rgba<u8>], img: &[Rgba<u8>], screen_width: u32, screen_height: u32, img_width: u32, img_height: u32, min_confidence: f32, tolerance: u8) -> Option<(u32, u32, u32, u32, f32)> {
     let step_size = 1;
 
     for y in (0..screen_height - img_height).step_by(step_size) {
         for x in (0..screen_width - img_width).step_by(step_size) {
             let mut matching_pixels = 0;
+            let mut total_pixels = 0;
 
             'outer: for dy in 0..img_height {
                 for dx in 0..img_width {
@@ -62,7 +62,13 @@ fn locate_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u32, scre
                     let screen_pixel = screen[screen_idx];
                     let img_pixel = img[img_idx];
 
-                    // Check if the pixel color is within the tolerance range
+                    // Skip transparent pixels
+                    if img_pixel[3] < 128 {
+                        continue;
+                    }
+
+                    total_pixels += 1;
+
                     if within_tolerance(screen_pixel[0], img_pixel[0], tolerance) &&
                        within_tolerance(screen_pixel[1], img_pixel[1], tolerance) &&
                        within_tolerance(screen_pixel[2], img_pixel[2], tolerance) {
@@ -73,28 +79,27 @@ fn locate_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u32, scre
                 }
             }
 
-            let total_pixels = (img_width * img_height) as usize;
-            let confidence = matching_pixels as f32 / total_pixels as f32;
+            let confidence = if total_pixels == 0 { 0.0 } else { matching_pixels as f32 / total_pixels as f32 };
 
             if confidence >= min_confidence {
                 return Some((x, y, img_width, img_height, confidence));
             }
         }
-    }   
+    }
 
     None
 }
 
 
-
 // Function to locate center of an image within the screen with given parameters and tolerance.
 // Returns coordinates and confidence if image is found, otherwise None.
-fn locate_center_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u32, screen_height: u32, img_width: u32, img_height: u32, min_confidence: f32, tolerance: u8) -> Option<(u32, u32, f32)> {
+fn locate_center_on_screen(screen: &[Rgba<u8>], img: &[Rgba<u8>], screen_width: u32, screen_height: u32, img_width: u32, img_height: u32, min_confidence: f32, tolerance: u8) -> Option<(u32, u32, f32)> {
     let step_size = 1;
 
     for y in (0..screen_height - img_height).step_by(step_size) {
         for x in (0..screen_width - img_width).step_by(step_size) {
             let mut matching_pixels = 0;
+            let mut total_pixels = 0;
 
             'outer: for dy in 0..img_height {
                 for dx in 0..img_width {
@@ -104,7 +109,13 @@ fn locate_center_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u3
                     let screen_pixel = screen[screen_idx];
                     let img_pixel = img[img_idx];
 
-                    // Check if the pixel color is within the tolerance range
+                    // Skip transparent pixels
+                    if img_pixel[3] < 128 {
+                        continue;
+                    }
+
+                    total_pixels += 1;
+
                     if within_tolerance(screen_pixel[0], img_pixel[0], tolerance) &&
                        within_tolerance(screen_pixel[1], img_pixel[1], tolerance) &&
                        within_tolerance(screen_pixel[2], img_pixel[2], tolerance) {
@@ -115,8 +126,7 @@ fn locate_center_on_screen(screen: &[Rgb<u8>], img: &[Rgb<u8>], screen_width: u3
                 }
             }
 
-            let total_pixels = (img_width * img_height) as usize;
-            let confidence = matching_pixels as f32 / total_pixels as f32;
+            let confidence = if total_pixels == 0 { 0.0 } else { matching_pixels as f32 / total_pixels as f32 };
 
             if confidence >= min_confidence {
                 return Some((x + img_width / 2, y + img_height / 2, confidence));
@@ -147,13 +157,13 @@ pub fn locate_center_of_image(img: &DynamicImage, region: Option<(u16, u16, u16,
     let min_confidence = min_confidence.unwrap_or(0.75);
     let tolerance = tolerance.unwrap_or(25);
 
-    let img_pixels: Vec<_> = img.pixels().map(|p| p.2.to_rgb()).collect();
+    let img_pixels: Vec<_> = img.pixels().map(|p| p.2.to_rgba()).collect(); // use to_rgba
     let img_width = img.width();
 
     let img_height = img.height();
 
     let screenshot = screenshot(x, y, width, height);
-    let screen_pixels: Vec<_> = screenshot.pixels().map(|p| p.2.to_rgb()).collect();
+    let screen_pixels: Vec<_> = screenshot.pixels().map(|p| p.2.to_rgba()).collect(); // use to_rgba
     let screen_width = screenshot.width();
     let screen_height = screenshot.height();
 
@@ -172,6 +182,7 @@ pub fn locate_center_of_image(img: &DynamicImage, region: Option<(u16, u16, u16,
     }
 }
 
+
 // Function to locate an image on the screen with optional region, minimum confidence, and tolerance.
 // Returns coordinates, width, height and confidence if image is found, otherwise None.
 pub fn locate_image(img: &DynamicImage, region: Option<(u16, u16, u16, u16)>, min_confidence: Option<f32>, tolerance: Option<u8>) -> Option<(u32, u32, u32, u32, f32)> {
@@ -180,12 +191,12 @@ pub fn locate_image(img: &DynamicImage, region: Option<(u16, u16, u16, u16)>, mi
     let min_confidence = min_confidence.unwrap_or(0.75);
     let tolerance = tolerance.unwrap_or(25);
 
-    let img_pixels: Vec<_> = img.pixels().map(|p| p.2.to_rgb()).collect();
+    let img_pixels: Vec<_> = img.pixels().map(|p| p.2.to_rgba()).collect();
     let img_width = img.width();
     let img_height = img.height();
 
     let screenshot = screenshot(x, y, width, height);
-    let screen_pixels: Vec<_> = screenshot.pixels().map(|p| p.2.to_rgb()).collect();
+    let screen_pixels: Vec<_> = screenshot.pixels().map(|p| p.2.to_rgba()).collect();
     let screen_width = screenshot.width();
     let screen_height = screenshot.height();
 
