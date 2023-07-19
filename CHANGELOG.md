@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comments for code readability
   
 ### Changed
-- Replaced Rbg use with Rgba
+- Replaced Rgb use with Rgba
 
 ## [0.1.0] - 2023-07-17
 Initial release
