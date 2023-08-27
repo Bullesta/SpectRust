@@ -54,7 +54,7 @@ fn main() {
     }
 }
 ```
-If you are having trouble with finding an image. Try lowering the confidence or increasing the tolerance. 
+If you are having trouble with finding an image. Try lowering the confidence or increasing the tolerance or contact me through discord: bullesta
 
 Benchmark
 --------
